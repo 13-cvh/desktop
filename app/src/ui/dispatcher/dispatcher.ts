@@ -7,6 +7,7 @@ import {
   IAPICheckSuite,
   IAPIRepoRuleset,
   getDotComAPIEndpoint,
+  IAPICreatePushProtectionBypassResponse,
 } from '../../lib/api'
 import { shell } from '../../lib/app-shell'
 import {
@@ -124,6 +125,7 @@ import { SignInResult } from '../../lib/stores/sign-in-store'
 import { ICustomIntegration } from '../../lib/custom-integration'
 import { isAbsolute } from 'path'
 import { CLIAction } from '../../lib/cli-action'
+import { BypassReasonType } from '../secret-scanning/bypass-push-protection-dialog'
 
 /**
  * An error handler function.
@@ -336,7 +338,9 @@ export class Dispatcher {
   /** Change the file's includedness. */
   public changeFileIncluded(
     repository: Repository,
-    file: WorkingDirectoryFileChange,
+    file:
+      | WorkingDirectoryFileChange
+      | ReadonlyArray<WorkingDirectoryFileChange>,
     include: boolean
   ): Promise<void> {
     return this.appStore._changeFileIncluded(repository, file, include)
@@ -1069,6 +1073,27 @@ export class Dispatcher {
     message: ICommitMessage
   ): Promise<void> {
     return this.appStore._setCommitMessage(repository, message)
+  }
+
+  public promptOverrideWithGeneratedCommitMessage(
+    repository: Repository,
+    filesSelected: ReadonlyArray<WorkingDirectoryFileChange>
+  ) {
+    return this.appStore._promptOverrideWithGeneratedCommitMessage(
+      repository,
+      filesSelected
+    )
+  }
+
+  public updateCommitMessageGenerationDisclaimerLastSeen() {
+    return this.appStore._updateCommitMessageGenerationDisclaimerLastSeen()
+  }
+
+  public generateCommitMessage(
+    repository: Repository,
+    filesSelected: ReadonlyArray<WorkingDirectoryFileChange>
+  ) {
+    return this.appStore._generateCommitMessage(repository, filesSelected)
   }
 
   /** Remove the given account from the app. */
@@ -2439,6 +2464,10 @@ export class Dispatcher {
 
   public setConfirmCommitFilteredChanges(value: boolean) {
     return this.appStore._setConfirmCommitFilteredChanges(value)
+  }
+
+  public setConfirmCommitMessageOverrideSetting(value: boolean) {
+    return this.appStore._setConfirmCommitMessageOverrideSetting(value)
   }
 
   /**
@@ -3979,11 +4008,52 @@ export class Dispatcher {
   }
   public setIncludedChangesInCommitFilter(
     repository: Repository,
-    includedChangesInCommitFilter: boolean
+    isIncludedInCommit: boolean
   ) {
     return this.appStore._setIncludedChangesInCommitFilter(
       repository,
-      includedChangesInCommitFilter
+      isIncludedInCommit
     )
+  }
+
+  public setFilterNewFiles(repository: Repository, isNewFile: boolean) {
+    return this.appStore._setFilterNewFiles(repository, isNewFile)
+  }
+
+  public setFilterModifiedFiles(
+    repository: Repository,
+    isModifiedFile: boolean
+  ) {
+    return this.appStore._setFilterModifiedFiles(repository, isModifiedFile)
+  }
+
+  public setFilterDeletedFiles(repository: Repository, isDeletedFile: boolean) {
+    return this.appStore._setFilterDeletedFiles(repository, isDeletedFile)
+  }
+
+  public setFilterExcludedFiles(
+    repository: Repository,
+    isExcludedFromCommit: boolean
+  ) {
+    return this.appStore._setFilterExcludedFiles(
+      repository,
+      isExcludedFromCommit
+    )
+  }
+
+  public async createPushProtectionBypass(
+    reason: BypassReasonType,
+    placeholderId: string,
+    bypassURL: string
+  ): Promise<IAPICreatePushProtectionBypassResponse | null> {
+    return this.appStore._createPushProtectionBypass(
+      reason,
+      placeholderId,
+      bypassURL
+    )
+  }
+
+  public toggleChangesFilterVisibility() {
+    this.appStore._toggleChangesFilterVisibility()
   }
 }

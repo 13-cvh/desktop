@@ -13,6 +13,8 @@ import { getPersistedThemeName } from '../../ui/lib/application-theme'
 import { IUiActivityMonitor } from '../../ui/lib/ui-activity-monitor'
 import { Disposable } from 'event-kit'
 import {
+  showChangesFilterDefault,
+  showChangesFilterKey,
   showDiffCheckMarksDefault,
   showDiffCheckMarksKey,
   underlineLinksDefault,
@@ -240,8 +242,24 @@ const DefaultDailyMeasures: IDailyMeasures = {
   previewedPullRequestCount: 0,
   typedInChangesFilterCount: 0,
   appliesIncludedInCommitFilterCount: 0,
+  appliesExcludedFromCommitFilterCount: 0,
+  appliesNewFilesChangesFilterCount: 0,
+  appliesModifiedFilesChangesFilterCount: 0,
+  appliesDeletedFilesChangesFilterCount: 0,
+  appliesClearAllChangesListFilterCount: 0,
   adjustedFiltersForHiddenChangesCount: 0,
   enterpriseAccountCount: 0,
+  generateCommitMessageButtonClickCount: 0,
+  generateCommitMessageCount: 0,
+  generateCommitMessageUsedVerbatimCount: 0,
+  pushBlockedBySecretScanningCount: 0,
+  secretsDetectedOnPushCount: 0,
+  secretsDetectedOnPushBypassedCount: 0,
+  secretsDetectedOnPushBypassedAsFalsePositiveCount: 0,
+  secretsDetectedOnPushBypassedAsUsedInTestCount: 0,
+  secretsDetectedOnPushBypassedAsWillFixLaterCount: 0,
+  secretsDetectedOnPushDelegatedBypassLinkClickedCount: 0,
+  secretRemediationInstructionsLinkClickedCount: 0,
 }
 
 // A subtype of IDailyMeasures filtered to contain only its numeric properties
@@ -405,6 +423,11 @@ interface ICalculatedStats {
    * if the user has not yet made an active decision
    **/
   readonly useExternalCredentialHelper?: boolean | null
+
+  /**
+   * Whether or not the user has the filtering changes enabled
+   **/
+  readonly filteringChangesEnabled: boolean
 }
 
 type DailyStats = ICalculatedStats &
@@ -587,9 +610,13 @@ export class StatsStore implements IStatsStore {
       showDiffCheckMarksKey,
       showDiffCheckMarksDefault
     )
-
     const useExternalCredentialHelper =
       getBoolean(useExternalCredentialHelperKey) ?? null
+
+    const filteringChangesEnabled = getBoolean(
+      showChangesFilterKey,
+      showChangesFilterDefault
+    )
 
     // isInApplicationsFolder is undefined when not running on Darwin
     const launchedFromApplicationsFolder = __DARWIN__
@@ -618,6 +645,7 @@ export class StatsStore implements IStatsStore {
       linkUnderlinesVisible,
       diffCheckMarksVisible,
       useExternalCredentialHelper,
+      filteringChangesEnabled,
     }
   }
 

@@ -377,10 +377,10 @@ dompurify@^3.2.4:
   optionalDependencies:
     "@types/trusted-types" "^2.0.7"
 
-dugite@3.0.0-rc10:
-  version "3.0.0-rc10"
-  resolved "https://registry.yarnpkg.com/dugite/-/dugite-3.0.0-rc10.tgz#7b307db3848b055755c3d2cf90b1a1a44358aba0"
-  integrity sha512-BVziV8Qy5x/qcElcLpyNpgYfq0j3mDQMEsP1TOrzrUpt18xhHZttlDKpHR+47Q4bMF64lOohs9rCEZaKW6B7qQ==
+dugite@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/dugite/-/dugite-3.0.0.tgz#56621ad397579d9a58c10c6a4f5e646b35937046"
+  integrity sha512-+q2i3y5TvlC2YaZofkdELHtmvHbT6yuBODimItxU6xEGtHqRt6rpApJzf6lAqtpo+y1gokhfsHyULH0yNZuTWQ==
   dependencies:
     progress "^2.0.3"
     tar-stream "^3.1.7"
@@ -1337,9 +1337,9 @@ tabbable@^5.1.0:
   integrity sha512-Y3nSukchqM5UchuZjhj/WyE79Qb4RM/Vx3x3oHO3UYKKpf70Hy3iVRxb61MzCavN74aZsKzvPl4KNG8tQUAjFQ==
 
 tar-fs@^2.0.0:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/tar-fs/-/tar-fs-2.1.2.tgz#425f154f3404cb16cb8ff6e671d45ab2ed9596c5"
-  integrity sha512-EsaAXwxmx8UB7FRKqeozqEPop69DXcmYwTQwXvyAPF352HJsPdkVhvTaDPYqfNgruveJIJy3TA2l+2zj8LJIJA==
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/tar-fs/-/tar-fs-2.1.4.tgz#800824dbf4ef06ded9afea4acafe71c67c76b930"
+  integrity sha512-mDAjwmZdh7LTT6pNleZ05Yt65HC3E+NiQzl672vQG38jIrehtJk/J3mNwIg+vShQPcLF/LV7CMnDW6vjj6sfYQ==
   dependencies:
     chownr "^1.1.1"
     mkdirp-classic "^0.5.2"

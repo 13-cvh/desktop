@@ -236,6 +236,9 @@ export interface IAppState {
   /** Should the app prompt the user to confirm they want to commit with changes are hidden by filter? */
   readonly askForConfirmationOnCommitFilteredChanges: boolean
 
+  /** Should the app prompt the user to confirm commit message override? */
+  readonly askForConfirmationOnCommitMessageOverride: boolean
+
   /** How the app should handle uncommitted changes when switching branches */
   readonly uncommittedChangesStrategy: UncommittedChangesStrategy
 
@@ -374,6 +377,13 @@ export interface IAppState {
   readonly underlineLinks: boolean
 
   readonly updateState: IUpdateState
+
+  readonly commitMessageGenerationDisclaimerLastSeen: number | null
+
+  readonly commitMessageGenerationButtonClicked: boolean
+
+  /** Whether the changes filter is shown */
+  readonly showChangesFilter: boolean
 }
 
 export enum FoldoutType {
@@ -529,6 +539,9 @@ export interface IRepositoryState {
 
   /** Is a commit in progress? */
   readonly isCommitting: boolean
+
+  /** Is generating a commit message? */
+  readonly isGeneratingCommitMessage: boolean
 
   /** Commit being amended, or null if none. */
   readonly commitToAmend: Commit | null
@@ -761,11 +774,31 @@ export interface IChangesState {
    */
   readonly currentRepoRulesInfo: RepoRulesInfo
 
-  /** The text entered into the compare branch filter text box */
+  /** The file list filter state containing all filter options */
+  readonly fileListFilter: IFileListFilterState
+}
+
+/**
+ * State interface for file list filtering options
+ */
+export interface IFileListFilterState {
+  /** The text entered into the filter text box */
   readonly filterText: string
 
-  /** The state of the changes list filter of included changes. */
-  readonly includedChangesInCommitFilter: boolean
+  /** Whether to filter and show only included in commit files */
+  readonly isIncludedInCommit: boolean
+
+  /** Whether to filter and show only excluded from commit files */
+  readonly isExcludedFromCommit: boolean
+
+  /** Whether to filter and show only new files */
+  readonly isNewFile: boolean
+
+  /** Whether to filter and show only modified files */
+  readonly isModifiedFile: boolean
+
+  /** Whether to filter and show only deleted files */
+  readonly isDeletedFile: boolean
 }
 
 /**
